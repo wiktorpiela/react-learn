@@ -1,13 +1,48 @@
 import logo from './logo.svg';
 import './App.css';
-import MyCompoment from './components/MyComponent';
-import SecondComponent from './components/SecondComponent';
+import TestComponent from './components/TestComponent';
+
+const arrFruits = [
+  {
+    id: 1,
+    name: "Apple",
+    color: "red"
+  },
+  {
+    id: 2,
+    name: "Orange",
+    color: "orange"
+  },
+  {
+    id: 3,
+    name: "Banana",
+    color: "yellow"
+  },
+  {
+    id: 4,
+    name: "Kiwi",
+    color: "green"
+  },
+  {
+    id: 5,
+    name: "Mango",
+    color: "red"
+  },
+  {
+    id: 6,
+    name: "Avocado",
+    color: "green"
+  },
+]
+
 
 function App() {
   return (
     <div className="App">
-      <MyCompoment/>
-      <SecondComponent/>
+
+      {arrFruits.map((fruit) => {
+        return <TestComponent key={fruit.id} name={fruit.name} color={fruit.color} />
+      })}
     </div>
   );
 }
