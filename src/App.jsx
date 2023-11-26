@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import TestComponent from './components/TestComponent';
+import AppleComponent from './components/AppleComponent';
 
 const arrFruits = [
   {
@@ -40,9 +41,12 @@ function App() {
   return (
     <div className="App">
 
+      <AppleComponent/>
+
       {arrFruits.map((fruit) => {
         return <TestComponent key={fruit.id} name={fruit.name} color={fruit.color} />
       })}
+      
     </div>
   );
 }
