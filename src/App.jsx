@@ -1,8 +1,9 @@
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
-import TestComponent from './components/TestComponent';
-import AppleComponent from './components/AppleComponent';
+import Home from './components/Home';
+import Login from './components/Login';
+import Listings from './components/Listings';
 
 // const arrFruits = [
 //   {
@@ -44,9 +45,9 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<h1>This is homepage</h1>}/>
-          <Route path='/login' element={<h1>This is login page</h1>}/>
-          <Route path='/listings' element={<h1>This is property listings page</h1>}/>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/listings' element={<Listings/>}/>
         </Routes>
       </BrowserRouter>
 
