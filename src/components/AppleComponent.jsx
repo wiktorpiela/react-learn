@@ -15,9 +15,13 @@ function AppleComponent() {
     }
 
   return (
-    <div>
-        <h1>{AppleDisplay(numberOfApples)}</h1>
-    </div>
+    <>
+        <div>
+            <h1>{AppleDisplay(numberOfApples)}</h1>
+        </div>
+        <button onClick={()=> setNumberOfApples(cureentVal => cureentVal+1)} className='add-btn'>Plus</button>
+        <button onClick={()=> setNumberOfApples(cureentVal => cureentVal-1)} className='decrease-btn'>Minus</button>
+    </>
   )
 }
 
