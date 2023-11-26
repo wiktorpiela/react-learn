@@ -43,9 +43,9 @@ function App() {
 
       <AppleComponent/>
 
-      {arrFruits.map((fruit) => {
+      {/* {arrFruits.map((fruit) => {
         return <TestComponent key={fruit.id} name={fruit.name} color={fruit.color} />
-      })}
+      })} */}
       
     </div>
   );
