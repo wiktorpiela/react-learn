@@ -1,18 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Typography, AppBar, Toolbar } from '@mui/material';
 
-
-
 function Home() {
 
-  const leftNavStyle = {
-    marginRight: 'auto'
-  }
 
-  const rightNavStyle = {
-    marginLeft: 'auto',
-    marginRight: "10rem"
-  }
 
   const propertyBtn = {
     backgroundColor: 'green',
@@ -36,23 +27,27 @@ function Home() {
     }
   }
 
-
   return (
     <>
-      <AppBar position="static" style={{backgroundColor: 'black'}}>
-        <Toolbar>
-          <div className={leftNavStyle}>
+      <AppBar position="static" sx={{backgroundColor: 'black'}}>
+        <Toolbar 
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+          >
+          <div>
             <Button color="inherit"><Typography variant='h4'>LBREP</Typography></Button>
           </div>
           <div>
-            <Button color="inherit">
-              <Typography variant='h6' sx={{marginRight: '2rem'}}>Listings</Typography>
+            <Button color="inherit" sx={{marginRight:'2rem'}}>
+              <Typography variant='h6'>Listings</Typography>
             </Button>
-            <Button color="inherit">
-              <Typography variant='h6' sx={{marginLeft: '2rem'}}>Agencies</Typography>
+            <Button color="inherit" sx={{marginLeft:'2rem'}}>
+              <Typography variant='h6'>Agencies</Typography>
             </Button>
           </div>
-          <div className={rightNavStyle}>
+          <div>
             <Button color="inherit" sx={propertyBtn}>Add property</Button>
             <Button color="inherit" sx={loginBtn}>Login</Button>
           </div>
