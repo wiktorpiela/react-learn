@@ -1,11 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Button } from '@mui/material';
+import React, { useState } from 'react'
+import { Button, Typography } from '@mui/material';
+
 
 function Home() {
+  const [btnColor, setBtnColor] = useState("error");
+
   return (
-    <div>
-        <Button variant="text">Text</Button>
+    <div style={{width:'50%', border:'2px solid black', padding:'15px'}}>
+        <Typography variant='h4'>This is first line of text in this lesson</Typography>
+        <Typography variant='body1'>This is first line of text in this lesson</Typography>
+
+        <Button variant="contained" color={btnColor} onClick={()=>setBtnColor("success")} size='medium'>Text</Button>
     </div>
   )
 }
