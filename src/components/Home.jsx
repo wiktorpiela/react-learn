@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Typography } from '@mui/material';
+import { blue } from '@mui/material/colors';
 
 
 function Home() {
@@ -10,7 +11,20 @@ function Home() {
         <Typography variant='h4'>This is first line of text in this lesson</Typography>
         <Typography variant='body1'>This is first line of text in this lesson</Typography>
 
-        <Button variant="contained" color={btnColor} onClick={()=>setBtnColor("success")} size='medium'>Text</Button>
+        <Button 
+          variant="contained" 
+          color={btnColor} 
+          onClick={()=>setBtnColor("success")} 
+          size='medium'
+          sx={{
+            fontFamily: 'Arial',
+            backgroundColor: 'orange',
+            '&:hover':{
+              backgroundColor: 'blue'
+            }
+          }}>
+          Text
+        </Button>
     </div>
   )
 }
