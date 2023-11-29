@@ -1,6 +1,6 @@
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import logo from './logo.svg';
-import './App.css';
+// import './App.css';
 import Home from './components/Home';
 import Login from './components/Login';
 import Listings from './components/Listings';
@@ -41,7 +41,7 @@ import Listings from './components/Listings';
 
 function App() {
   return (
-    <div className="App">
+    <div>
 
       <BrowserRouter>
         <Routes>
