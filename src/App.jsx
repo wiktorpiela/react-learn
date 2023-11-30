@@ -4,6 +4,8 @@ import logo from './logo.svg';
 import Home from './components/Home';
 import Login from './components/Login';
 import Listings from './components/Listings';
+import { CssBaseline } from '@mui/material';
+import Header from './components/Header';
 
 // const arrFruits = [
 //   {
@@ -42,8 +44,9 @@ import Listings from './components/Listings';
 function App() {
   return (
     <div>
-
       <BrowserRouter>
+      <CssBaseline/>
+      <Header/>
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/login' element={<Login/>}/>
