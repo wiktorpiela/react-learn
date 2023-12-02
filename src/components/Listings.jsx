@@ -1,10 +1,11 @@
-import { Grid, AppBar, Typography } from '@mui/material'
+import { Grid, AppBar, Typography, Button } from '@mui/material'
 import React from 'react'
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
-import {Icon} from 'leaflet'
+import { Icon } from 'leaflet'
 import houseIconPng from './assets/Mapicons/house.png'
 import apartmentIconPng from './assets/Mapicons/apartment.png'
 import officeIconPng from './assets/Mapicons/office.png'
+import img1 from './assets/image1.jpg'
 
 
 function Listings() {
@@ -45,9 +46,12 @@ function Listings() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               <Marker position={[51.505, -0.09]} icon={houseIcon}>
-                {/* <Popup>
-            A pretty CSS3 popup. <br/> Easily customizable.
-          </Popup> */}
+                <Popup>
+                 <Typography variant='h5'>a title</Typography>
+                 <img src={img1} alt="pic" style={{height: '14rem', width:'18rem'}}/>
+                 <Typography variant='body1'>this is some text below the title</Typography>
+                 <Button variant='contained' fullWidth>a link</Button>
+                </Popup>
               </Marker>
             </MapContainer>
           </div>
