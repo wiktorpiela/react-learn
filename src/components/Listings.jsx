@@ -1,9 +1,29 @@
 import { Grid, AppBar, Typography } from '@mui/material'
 import React from 'react'
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import {Icon} from 'leaflet'
+import houseIconPng from './assets/Mapicons/house.png'
+import apartmentIconPng from './assets/Mapicons/apartment.png'
+import officeIconPng from './assets/Mapicons/office.png'
 
 
 function Listings() {
+
+  const houseIcon = new Icon({
+    iconUrl: houseIconPng,
+    iconSize: [40, 40],
+  })
+
+  const apartmentIcon = new Icon({
+    iconUrl: apartmentIconPng,
+    iconSize: [40, 40],
+  })
+
+  const officeIcon = new Icon({
+    iconUrl: officeIconPng,
+    iconSize: [40, 40],
+  })
+
   return (
 
     <Grid container>
@@ -24,7 +44,7 @@ function Listings() {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <Marker position={[51.505, -0.09]}>
+              <Marker position={[51.505, -0.09]} icon={houseIcon}>
                 {/* <Popup>
             A pretty CSS3 popup. <br/> Easily customizable.
           </Popup> */}

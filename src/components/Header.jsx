@@ -30,7 +30,7 @@ function Header() {
 
 
   return (
-    <AppBar position="static" sx={{backgroundColor: 'black'}}>
+    <AppBar position="sticky" sx={{backgroundColor: 'black'}}>
     <Toolbar 
       sx={{
         display: 'flex',
