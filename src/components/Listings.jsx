@@ -1,5 +1,5 @@
 import { Grid, AppBar, Typography, Button } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import { Icon } from 'leaflet'
 import houseIconPng from './assets/Mapicons/house.png'
@@ -25,16 +25,26 @@ function Listings() {
     iconSize: [40, 40],
   })
 
+  const [latitude, setLatitude] = useState(51.505)
+  const [longitude, setLongitude] = useState(-0.09)
+
+  function GoEast(){
+    setLatitude(51.46567014039476)
+    setLongitude(0.25961735)
+  }
+
+  function GoCenter(){
+    setLatitude(51.505)
+    setLongitude(-0.09)
+  }
+
   return (
 
     <Grid container>
 
       <Grid item xs={4}>
-        <Typography variant='h1'>
-          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-        </Typography>
+        <Button onClick={GoEast}>Go east</Button>
+        <Button onClick={GoCenter}>Go center</Button>
       </Grid>
 
       <Grid item xs={8}>
@@ -45,7 +55,7 @@ function Listings() {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <Marker position={[51.505, -0.09]} icon={houseIcon}>
+              <Marker position={[latitude, longitude]} icon={houseIcon}>
                 <Popup>
                  <Typography variant='h5'>a title</Typography>
                  <img src={img1} alt="pic" style={{height: '14rem', width:'18rem'}}/>
