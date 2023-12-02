@@ -1,4 +1,4 @@
-import { Grid, AppBar, Typography, Button } from '@mui/material'
+import { Grid, AppBar, Typography, Button, Card, CardHeader, CardMedia, CardContent } from '@mui/material'
 import React, { useState } from 'react'
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import { Icon } from 'leaflet'
@@ -47,11 +47,75 @@ function Listings() {
     <Grid container>
 
       <Grid item xs={4}>
-        <Button onClick={GoEast}>Go east</Button>
-        <Button onClick={GoCenter}>Go center</Button>
+        {myListings.map((listing) => {
+          return (
+            <Card key={listing.id}
+              sx={{
+                margin: '0.5rem',
+                border: '1px solid black'
+              }}>
+              <CardHeader
+                // action={
+                //   <IconButton aria-label="settings">
+                //     <MoreVertIcon />
+                //   </IconButton>
+                // }
+                title={listing.title}
+              />
+              <CardMedia
+                component="img"
+                image={listing.picture1}
+                alt={listing.title}
+                sx={{
+                  paddingRight: '1rem',
+                  paddingLeft: '1rem',
+                  height: '20rem',
+                  width: '30rem'
+                }}
+              />
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  {listing.description.substring(0, 150)}
+                </Typography>
+
+                {listing.property_status === "Sale" ? (<Typography
+                  sx={{
+                    textAlign: 'center',
+                    backgroundColor: 'green',
+                    zIndex: '1000',
+                    color: 'white',
+                    padding: '5px'
+                  }}>{listing.listing_type}: ${listing.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </Typography>) : (<Typography
+                  sx={{
+                    textAlign: 'center',
+                    backgroundColor: 'green',
+                    zIndex: '1000',
+                    color: 'white',
+                    padding: '5px'
+                  }}>{listing.listing_type}: ${listing.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}/{listing.rental_frequency}
+                </Typography>)}
+
+
+              </CardContent>
+
+
+
+
+              {/* <CardActions disableSpacing>
+              <IconButton aria-label="add to favorites">
+                <FavoriteIcon />
+              </IconButton>
+              <IconButton aria-label="share">
+                <ShareIcon />
+              </IconButton>
+            </CardActions> */}
+            </Card>
+          )
+        })}
       </Grid>
 
-      <Grid item xs={8}>
+      <Grid item xs={8} style={{ marginTop: '0.5rem' }}>
         <AppBar position='sticky'>
           <div style={{ height: '100vh' }}>
             <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={true}>
