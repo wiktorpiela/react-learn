@@ -7,6 +7,8 @@ import apartmentIconPng from './assets/Mapicons/apartment.png'
 import officeIconPng from './assets/Mapicons/office.png'
 import img1 from './assets/image1.jpg'
 
+import myListings from './assets/Data/Dummydata';
+
 
 function Listings() {
 
@@ -28,15 +30,17 @@ function Listings() {
   const [latitude, setLatitude] = useState(51.505)
   const [longitude, setLongitude] = useState(-0.09)
 
-  function GoEast(){
+  function GoEast() {
     setLatitude(51.46567014039476)
     setLongitude(0.25961735)
   }
 
-  function GoCenter(){
+  function GoCenter() {
     setLatitude(51.505)
     setLongitude(-0.09)
   }
+
+
 
   return (
 
@@ -55,14 +59,50 @@ function Listings() {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <Marker position={[latitude, longitude]} icon={houseIcon}>
+
+              {myListings.map((listing) => {
+
+                function IconDisplay() {
+                  if (listing.listing_type === 'House') {
+                    return houseIcon
+                  } else if (listing.listing_type === 'Apartment') {
+                    return apartmentIcon
+                  } else {
+                    return officeIcon
+                  }
+                }
+
+
+                return (
+                  <Marker
+                    key={listing.id}
+                    icon={IconDisplay()}
+                    position={[listing.location.coordinates[0], listing.location.coordinates[1]]}>
+
+                    <Popup>
+                      <Typography variant='h5'>{listing.title}</Typography>
+                      <img src={listing.picture1} alt="pic" style={{ height: '14rem', width: '18rem' }} />
+                      <Typography variant='body1'>
+                        {listing.description.substring(0, 150)}...
+                      </Typography>
+                      <Button variant='contained' fullWidth>Details</Button>
+                    </Popup>
+
+                  </Marker>
+                )
+              })}
+
+
+
+              {/* <Marker position={[latitude, longitude]} icon={houseIcon}>
                 <Popup>
                  <Typography variant='h5'>a title</Typography>
                  <img src={img1} alt="pic" style={{height: '14rem', width:'18rem'}}/>
                  <Typography variant='body1'>this is some text below the title</Typography>
                  <Button variant='contained' fullWidth>a link</Button>
                 </Popup>
-              </Marker>
+              </Marker> */}
+
             </MapContainer>
           </div>
         </AppBar>
