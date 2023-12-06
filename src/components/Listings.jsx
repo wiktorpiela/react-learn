@@ -14,6 +14,12 @@ import polygonOne from './Shape'
 
 function Listings() {
 
+  fetch('http://127.0.0.1:8000/listing-list/')
+    .then(response=>response.json())
+    .then(data=>console.log(data))
+
+
+
   const houseIcon = new Icon({
     iconUrl: houseIconPng,
     iconSize: [40, 40],
