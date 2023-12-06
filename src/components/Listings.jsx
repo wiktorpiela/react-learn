@@ -1,5 +1,5 @@
 import { Grid, AppBar, Typography, Button, Card, CardHeader, CardMedia, CardContent } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, useMap, Marker, Popup, Polyline, Polygon } from 'react-leaflet'
 import { Icon } from 'leaflet'
 import houseIconPng from './assets/Mapicons/house.png'
@@ -10,15 +10,32 @@ import img1 from './assets/image1.jpg'
 import myListings from './assets/Data/Dummydata';
 
 import polygonOne from './Shape'
+import axios from 'axios'
 
 
 function Listings() {
 
-  fetch('http://127.0.0.1:8000/listing-list/')
-    .then(response=>response.json())
-    .then(data=>console.log(data))
+  const [allListings, setAllListings] = useState([])
+
+  useEffect(() => {
+    async function getAllListings() {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/listing-list/')
+        setAllListings(response.data);
+
+      } catch (error) {
+        console.log(error)
+      }
 
 
+
+
+
+    }
+    getAllListings();
+  }, [])
+
+  console.log(allListings)
 
   const houseIcon = new Icon({
     iconUrl: houseIconPng,
@@ -59,7 +76,7 @@ function Listings() {
     <Grid container>
 
       <Grid item xs={4}>
-        {myListings.map((listing) => {
+        {allListings.map((listing) => {
           return (
             <Card key={listing.id}
               sx={{
@@ -136,10 +153,10 @@ function Listings() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
 
-              <Polyline positions={polyOne} weight={10} color='green'/>
-              <Polygon positions={polygonOne} color='yellow' fillColor='blue' fillOpacity={0.9} opacity={0}/>
+              <Polyline positions={polyOne} weight={10} color='green' />
+              <Polygon positions={polygonOne} color='yellow' fillColor='blue' fillOpacity={0.9} opacity={0} />
 
-              {myListings.map((listing) => {
+              {allListings.map((listing) => {
 
                 function IconDisplay() {
                   if (listing.listing_type === 'House') {
