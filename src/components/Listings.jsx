@@ -1,4 +1,4 @@
-import { Grid, AppBar, Typography, Button, Card, CardHeader, CardMedia, CardContent } from '@mui/material'
+import { Grid, AppBar, Typography, Button, Card, CardHeader, CardMedia, CardContent, CircularProgress } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, useMap, Marker, Popup, Polyline, Polygon } from 'react-leaflet'
 import { Icon } from 'leaflet'
@@ -15,27 +15,11 @@ import axios from 'axios'
 
 function Listings() {
 
-  const [allListings, setAllListings] = useState([])
-
-  useEffect(() => {
-    async function getAllListings() {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/listing-list/')
-        setAllListings(response.data);
-
-      } catch (error) {
-        console.log(error)
-      }
 
 
 
 
 
-    }
-    getAllListings();
-  }, [])
-
-  console.log(allListings)
 
   const houseIcon = new Icon({
     iconUrl: houseIconPng,
@@ -70,6 +54,45 @@ function Listings() {
     [51.51, -0.1],
     [51.51, -0.12],
   ]
+
+  const [allListings, setAllListings] = useState([])
+  const [dataLoading, seDataLoading] = useState(true)
+
+  useEffect(() => {
+    const source = axios.CancelToken.source()
+    async function getAllListings() {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/listing-list/', {cancelToken: source.token})
+        setAllListings(response.data);
+        seDataLoading(false)
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAllListings();
+    return ()=>{
+      source.cancel()
+    }
+  }, [])
+
+  if (dataLoading === false) {
+    console.log(allListings[0].location)
+  }
+
+  if (dataLoading) {
+    return (
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{height: '100vh'}}
+      >
+        <CircularProgress />
+      </Grid>
+
+    )
+  }
 
   return (
 
