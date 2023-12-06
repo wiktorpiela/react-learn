@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Listings from './components/Listings';
 import { CssBaseline } from '@mui/material';
 import Header from './components/Header';
+import Testing from './components/Testing';
 
 // const arrFruits = [
 //   {
@@ -51,6 +52,7 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/listings' element={<Listings/>}/>
+          <Route path='/testing' element={<Testing/>}/>
         </Routes>
       </BrowserRouter>
 
