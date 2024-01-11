@@ -7,40 +7,7 @@ import Listings from './components/Listings';
 import { CssBaseline } from '@mui/material';
 import Header from './components/Header';
 import Testing from './components/Testing';
-
-// const arrFruits = [
-//   {
-//     id: 1,
-//     name: "Apple",
-//     color: "red"
-//   },
-//   {
-//     id: 2,
-//     name: "Orange",
-//     color: "orange"
-//   },
-//   {
-//     id: 3,
-//     name: "Banana",
-//     color: "yellow"
-//   },
-//   {
-//     id: 4,
-//     name: "Kiwi",
-//     color: "green"
-//   },
-//   {
-//     id: 5,
-//     name: "Mango",
-//     color: "red"
-//   },
-//   {
-//     id: 6,
-//     name: "Avocado",
-//     color: "green"
-//   },
-// ]
-
+import Register from './components/Register'
 
 function App() {
   return (
@@ -51,6 +18,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<Register/>}/>
           <Route path='/listings' element={<Listings/>}/>
           <Route path='/testing' element={<Testing/>}/>
         </Routes>

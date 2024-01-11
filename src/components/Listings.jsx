@@ -15,12 +15,6 @@ import axios from 'axios'
 
 function Listings() {
 
-
-
-
-
-
-
   const houseIcon = new Icon({
     iconUrl: houseIconPng,
     iconSize: [40, 40],
