@@ -1,5 +1,6 @@
 import React from 'react'
 import {TextField, Grid, Typography, Button} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const myStyle = {
     width: '50%',
@@ -18,6 +19,8 @@ const regBtnStyle = {
 }
 
 function Register() {
+
+const navigate = useNavigate();
 
   return (
     <div style={myStyle}>
@@ -44,7 +47,7 @@ function Register() {
       </form>
 
     <Grid item container style={{marginTop: '1rem'}} justifyContent={'center'}>
-        <Typography variant='small' style={{marginTop: '1rem'}}>Already have an account? <span style={{cursor:'pointer', color:'green'}}>SIGN IN</span> </Typography>
+        <Typography variant='small' style={{marginTop: '1rem'}}>Already have an account? <span onClick={()=>navigate('/login')} style={{cursor:'pointer', color:'green'}}>SIGN IN</span> </Typography>
     </Grid>
     </div>
   )
