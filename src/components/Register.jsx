@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {TextField, Grid, Typography, Button} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 const myStyle = {
     width: '50%',
@@ -22,9 +23,47 @@ function Register() {
 
 const navigate = useNavigate();
 
+const [sendRequest, setSendRequest] = useState(false);
+
+function FormSubmit(e){
+    e.preventDefault();
+    console.log('the form has been submitted')
+    setSendRequest(!sendRequest)
+}
+
+useEffect(() => {
+
+    if (sendRequest){
+        const source = axios.CancelToken.source()
+        async function SignUp() {
+          try {
+            const response = await axios.post(
+                'http://127.0.0.1:8000/api-auth-djoser/users/', 
+    
+                {
+                    username: 'testinguser123',
+                    email: 'testinguser@gmail.com',
+                    password: 'mypass123',
+                    confirm_password: 'mypass123',
+                }, 
+                {cancelToken: source.token});
+                console.log(response)
+    
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        SignUp();
+        return ()=>{
+          source.cancel()
+        }
+    }
+
+  }, [sendRequest])
+
   return (
     <div style={myStyle}>
-      <form>
+      <form onSubmit={FormSubmit}>
         <Grid item container style={{marginTop: '1rem'}} justifyContent={'center'}>
             <Typography variant='h4' style={{textTransform: 'uppercase'}}>Create an account</Typography>
         </Grid>
