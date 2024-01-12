@@ -1,33 +1,44 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { useEffect } from 'react'
+import {useImmer, useImmerReducer} from 'use-immer';
 
 function Testing() {
 
-    const [count, setCount] = useState(1)
+  const initialState = {
+    appleCount: 1,
+    bananaCount: 10,
+    message: 'Hello',
+    happy: true,
+  };
 
-    // useEffect(()=>{
-    //     console.log('this is a first useeffect')
-    // },[])
+  function ReducerFunction(draft, action){
 
-    useEffect(()=>{
-        console.log(`current count is ${count}`)
-    },[count])
+    switch(action.type){
+      case 'addApple':
+        draft.appleCount = draft.appleCount+1;
+        break
 
-    function IncreaseCount(){
-        setCount(currentVal=>currentVal+1)
+      case 'changeeverything':
+        draft.bananaCount = draft.bananaCount+10;
+        draft.message = action.customMessage;
+        draft.happy = !draft.happy
+        break
     }
 
-    function DecreaseCount(){
-        setCount(currentVal=>currentVal-1)
-    }
+  }
+
+  const [state, dispatch] = useImmerReducer(ReducerFunction, initialState);
+
+
 
   return (
     <div>
-        <h1>current count is {count}</h1>
-      <button onClick={IncreaseCount}>Increase</button>
-      <br />
-      <button onClick={DecreaseCount}>Decrease</button>
-
+      <div>Right now the count of apple is {state.appleCount}</div><br />
+      <div>Right now the count of bananas is {state.bananaCount}</div><br />
+      <div>Right now the message is {state.message}</div><br />
+      {state.happy ? (<h1>Thank you for being happy</h1>) : (<h1>there is no hapinnes</h1>)}
+      <button onClick={()=>{dispatch({type: 'addApple'})}}>Add apple</button><br />
+      <button onClick={()=>{dispatch({type: 'changeeverything', customMessage:'the message is now coming from distapch'})}}>change everything</button>
     </div>
   )
 }
