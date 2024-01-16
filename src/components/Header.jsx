@@ -50,7 +50,9 @@ function Header() {
       </div>
       <div>
         <Button color="inherit" sx={propertyBtn}>Add property</Button>
-        <Button color="inherit" sx={loginBtn} onClick={()=>navigate('/login')}>Login</Button>
+
+        {/* {userIsLoggedIn ? <Button color="inherit" sx={loginBtn} onClick={()=>navigate('/login')}>Username</Button> : <Button color="inherit" sx={loginBtn} onClick={()=>navigate('/login')}>Login</Button>} */}
+        
       </div>
     </Toolbar>
   </AppBar>

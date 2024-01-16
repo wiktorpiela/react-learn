@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { TextField, Grid, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 import { useImmerReducer } from 'use-immer';
 import axios from 'axios'
+
+//contexts
+import DispatchContext from '../context/DispatchContext';
+import StateContext from '../context/StateContext';
 
 const myStyle = {
   width: '50%',
@@ -20,9 +24,13 @@ const lonInBtnStyle = {
   }
 }
 
+
 function Login() {
 
   const navigate = useNavigate();
+
+  const GlobalDispatch = useContext(DispatchContext)
+  const GlobalState = useContext(StateContext)
 
   const initialState = {
     usernameValue: '',
@@ -82,6 +90,7 @@ function Login() {
 
           console.log(response)
           dispatch({ type: 'catchToken', tokenValue: response.data.auth_token })
+          GlobalDispatch({ type: 'catchToken', tokenValue: response.data.auth_token })
           //navigate('/')
         } catch (error) {
           console.log(error)
@@ -112,7 +121,13 @@ function Login() {
             { cancelToken: source.token });
 
           console.log(response)
-
+          GlobalDispatch({
+            type: 'catchUserInfo', 
+            usernameInfo: response.data.username,
+            emailInfo: response.data.email, 
+            IdInfo: response.data.id
+          })
+          navigate('/');
         } catch (error) {
           console.log(error)
         }
