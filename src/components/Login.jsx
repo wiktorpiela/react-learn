@@ -27,7 +27,8 @@ function Login() {
   const initialState = {
     usernameValue: '',
     passwordValue: '',
-    sendRequest: 0
+    sendRequest: 0,
+    token: ''
   };
 
   function ReducerFunction(draft, action) {
@@ -43,7 +44,11 @@ function Login() {
         break;
 
       case 'changeSendRequest':
-        draft.sendRequest = draft.sendRequest+1;  //!draft.sendRequest
+        draft.sendRequest = draft.sendRequest + 1;  //!draft.sendRequest
+        break
+
+      case 'catchToken':
+        draft.token = action.tokenValue
         break
 
       default:
@@ -58,6 +63,7 @@ function Login() {
     console.log('the form has been submitted')
     dispatch({ type: 'changeSendRequest' })
   }
+
 
   useEffect(() => {
 
@@ -75,6 +81,7 @@ function Login() {
             { cancelToken: source.token });
 
           console.log(response)
+          dispatch({ type: 'catchToken', tokenValue: response.data.auth_token })
           //navigate('/')
         } catch (error) {
           console.log(error)
@@ -87,6 +94,36 @@ function Login() {
     }
 
   }, [state.sendRequest])
+
+
+  //get user info
+  useEffect(() => {
+
+    if (state.token !== '') {
+      const source = axios.CancelToken.source()
+      async function GerUserInfo() {
+        try {
+          const response = await axios.get(
+            'http://127.0.0.1:8000/api-auth-djoser/users/me/',
+
+            {
+              headers: { Authorization: `Token ${state.token}` }
+            },
+            { cancelToken: source.token });
+
+          console.log(response)
+
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      GerUserInfo();
+      return () => {
+        source.cancel()
+      }
+    }
+
+  }, [state.token])
 
 
 
