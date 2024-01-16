@@ -66,7 +66,6 @@ function Register() {
   function FormSubmit(e) {
     e.preventDefault();
     console.log('the form has been submitted')
-    //setSendRequest(sendRequest)
     dispatch({type: 'changeSendRequest'})
     console.log(state.sendRequest)
   }
@@ -89,7 +88,7 @@ function Register() {
             { cancelToken: source.token });
 
           console.log(response)
-
+          navigate('/')
         } catch (error) {
           console.log(error)
         }
