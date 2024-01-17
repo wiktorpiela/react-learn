@@ -101,7 +101,7 @@ function Header() {
           </Button>
         </div>
         <div>
-          <Button color="inherit" sx={propertyBtn}>Add property</Button>
+          <Button color="inherit" onClick={() => navigate('/addproperty')} sx={propertyBtn}>Add property</Button>
 
           {GlobalState.userIsLogged ?
             <Button color="inherit" sx={loginBtn} onClick={handleClick}>{GlobalState.userUsername}</Button> : <Button color="inherit" sx={loginBtn} onClick={() => navigate('/login')}>Login</Button>}

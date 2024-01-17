@@ -8,6 +8,7 @@ import { CssBaseline } from '@mui/material';
 import Header from './components/Header';
 import Testing from './components/Testing';
 import Register from './components/Register'
+import AddProperty from './components/AddProperty';
 import { useImmerReducer } from 'use-immer';
 import DispatchContext from './context/DispatchContext';
 import StateContext from './context/StateContext';
@@ -76,6 +77,7 @@ function App() {
               <Route path='/register' element={<Register />} />
               <Route path='/listings' element={<Listings />} />
               <Route path='/testing' element={<Testing />} />
+              <Route path='/addproperty' element={<AddProperty />} />
             </Routes>
           </BrowserRouter>
         </DispatchContext.Provider>
