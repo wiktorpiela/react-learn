@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { Button, Typography, AppBar, Toolbar, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 import StateConText from "../context/StateContext";
+import DispatchContext from "../context/DispatchContext";
 
 const propertyBtn = {
   backgroundColor: 'green',
@@ -24,7 +26,6 @@ const loginBtn = {
     backgroundColor: 'green'
   }
 }
-
 const profileBtn = {
   color: 'black',
   backgroundColor: 'green',
@@ -33,7 +34,6 @@ const profileBtn = {
   borderRadius: '15px',
   marginBottom: '0.25rem'
 }
-
 const logoutBtn = {
   color: 'black',
   backgroundColor: 'red',
@@ -46,6 +46,7 @@ function Header() {
 
   const navigate = useNavigate();
   const GlobalState = useContext(StateConText);
+  const GlobalDispatch = useContext(DispatchContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -55,6 +56,28 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  async function HandleLogout() {
+    setAnchorEl(null);
+    const confirmLogout = window.confirm('Are you sure you want to leave?');
+
+    if (confirmLogout) {
+      try {
+        const response = await axios.post(
+          'http://127.0.0.1:8000/api-auth-djoser/token/logout/',
+          GlobalState.userToken,
+          { headers: { Authorization: `Token ${GlobalState.userToken}` } });
+        console.log(response);
+        GlobalDispatch({ type: 'logout' });
+        navigate('/')
+      } catch (e) {
+        console.log(e.response)
+      }
+    }
+
+
+
+  }
 
 
 
@@ -92,7 +115,7 @@ function Header() {
             }}
           >
             <MenuItem style={profileBtn} onClick={handleClose}>Profile</MenuItem>
-            <MenuItem style={logoutBtn} onClick={handleClose}>Logout</MenuItem>
+            <MenuItem style={logoutBtn} onClick={HandleLogout}>Logout</MenuItem>
           </Menu>
         </div>
       </Toolbar>
