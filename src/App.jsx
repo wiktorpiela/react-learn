@@ -11,16 +11,16 @@ import Register from './components/Register'
 import { useImmerReducer } from 'use-immer';
 import DispatchContext from './context/DispatchContext';
 import StateContext from './context/StateContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 function App() {
 
   const initialState = {
-    userUsername: '',
-    userEmail: '',
-    userId: '',
-    userToken: '',
-    globalMessage: 'hello, this is message can be used by any child compoment'
+    userUsername: localStorage.getItem('theUserUsername'),
+    userEmail: localStorage.getItem('theUserEmail'),
+    userId: localStorage.getItem('theUserId'),
+    userToken: localStorage.getItem('theUserToken'),
+    userIsLogged: localStorage.getItem('theUserUsername') ? true : false
   };
 
   function ReducerFunction(draft, action) {
@@ -31,10 +31,11 @@ function App() {
         draft.userToken = action.tokenValue;
         break;
 
-      case 'catchUserInfo':
+      case 'userSignsIn':
         draft.userUsername = action.usernameInfo
         draft.userEmail = action.emailInfo
         draft.userId = action.IdInfo
+        draft.userIsLogged = true
         break
         
       default:
@@ -43,6 +44,15 @@ function App() {
   }
 
   const [state, dispatch] = useImmerReducer(ReducerFunction, initialState);
+
+  useEffect(()=>{
+    if(state.userIsLogged){
+      localStorage.setItem('theUserUsername', state.userUsername)
+      localStorage.setItem('theUserEmail', state.userEmail)
+      localStorage.setItem('theUserId', state.userId)
+      localStorage.setItem('theUserToken', state.userToken)
+    }
+  },[state.userIsLogged])
 
   return (
     <div>
@@ -61,18 +71,6 @@ function App() {
           </BrowserRouter>
         </DispatchContext.Provider>
       </StateContext.Provider>
-
-
-
-
-
-
-
-      {/* <AppleComponent/> */}
-
-      {/* {arrFruits.map((fruit) => {
-        return <TestComponent key={fruit.id} name={fruit.name} color={fruit.color} />
-      })} */}
 
     </div>
   );
