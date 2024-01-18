@@ -3,7 +3,41 @@ import { TextField, Grid, Typography, Button, FormControlLabel, Checkbox } from 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { useImmerReducer } from 'use-immer';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet'
+import { MapContainer, Polygon, TileLayer, useMap } from 'react-leaflet'
+
+import Camden from "./assets/Boroughs/Camden";
+import Greenwich from "./assets/Boroughs/Greenwich";
+import Hackney from "./assets/Boroughs/Hackney";
+import Hammersmith from "./assets/Boroughs/Hammersmith";
+import Islington from "./assets/Boroughs/Islington";
+import Kensington from "./assets/Boroughs/Kensington";
+import Lambeth from "./assets/Boroughs/Lambeth";
+import Lewisham from "./assets/Boroughs/Lewisham";
+import Southwark from "./assets/Boroughs/Southwark";
+import Hamlets from "./assets/Boroughs/Hamlets";
+import Wandsworth from "./assets/Boroughs/Wandsworth";
+import Westminster from "./assets/Boroughs/Westminster";
+import City_of_London from "./assets/Boroughs/City_of_London";
+import Barking from "./assets/Boroughs/Barking";
+import Barnet from "./assets/Boroughs/Barnet";
+import Bexley from "./assets/Boroughs/Bexley";
+import Brent from "./assets/Boroughs/Brent";
+import Bromley from "./assets/Boroughs/Bromley";
+import Croydon from "./assets/Boroughs/Croydon";
+import Ealing from "./assets/Boroughs/Ealing";
+import Enfield from "./assets/Boroughs/Enfield";
+import Haringey from "./assets/Boroughs/Haringey";
+import Harrow from "./assets/Boroughs/Harrow";
+import Havering from "./assets/Boroughs/Havering";
+import Hillingdon from "./assets/Boroughs/Hillingdon";
+import Hounslow from "./assets/Boroughs/Hounslow";
+import Kingston from "./assets/Boroughs/Kingston";
+import Merton from "./assets/Boroughs/Merton";
+import Newham from "./assets/Boroughs/Newham";
+import Redbridge from "./assets/Boroughs/Redbridge";
+import Richmond from "./assets/Boroughs/Richmond";
+import Sutton from "./assets/Boroughs/Sutton";
+import Waltham from "./assets/Boroughs/Waltham";
 
 const myStyle = {
     width: '75%',
@@ -317,7 +351,7 @@ function AddProperty() {
     }
 
     // change the map view depending of chosen borough
-    useEffect(()=>{
+    useEffect(() => {
         if (state.boroughValue === "Camden") {
             state.mapInstance.setView([51.54103467179952, -0.14870897037846917], 12);
         } else if (state.boroughValue === "Greenwich") {
@@ -385,7 +419,77 @@ function AddProperty() {
         } else if (state.boroughValue === "Waltham Forest") {
             state.mapInstance.setView([51.59466635701797, -0.012215840493378892], 12);
         }
-    },[state.boroughValue])
+    }, [state.boroughValue])
+
+    function BoroughDisplay() {
+        if (state.boroughValue === "Camden") {
+            return <Polygon positions={Camden} />;
+        } else if (state.boroughValue === "Greenwich") {
+            return <Polygon positions={Greenwich} />;
+        } else if (state.boroughValue === "Hackney") {
+            return <Polygon positions={Hackney} />;
+        } else if (state.boroughValue === "Hammersmith and Fulham") {
+            return <Polygon positions={Hammersmith} />;
+        } else if (state.boroughValue === "Islington") {
+            return <Polygon positions={Islington} />;
+        } else if (state.boroughValue === "Kensington and Chelsea") {
+            return <Polygon positions={Kensington} />;
+        } else if (state.boroughValue === "Lambeth") {
+            return <Polygon positions={Lambeth} />;
+        } else if (state.boroughValue === "Lewisham") {
+            return <Polygon positions={Lewisham} />;
+        } else if (state.boroughValue === "Southwark") {
+            return <Polygon positions={Southwark} />;
+        } else if (state.boroughValue === "Tower Hamlets") {
+            return <Polygon positions={Hamlets} />;
+        } else if (state.boroughValue === "Wandsworth") {
+            return <Polygon positions={Wandsworth} />;
+        } else if (state.boroughValue === "Westminster") {
+            return <Polygon positions={Westminster} />;
+        } else if (state.boroughValue === "City of London") {
+            return <Polygon positions={City_of_London} />;
+        } else if (state.boroughValue === "Barking and Dangenham") {
+            return <Polygon positions={Barking} />;
+        } else if (state.boroughValue === "Barnet") {
+            return <Polygon positions={Barnet} />;
+        } else if (state.boroughValue === "Bexley") {
+            return <Polygon positions={Bexley} />;
+        } else if (state.boroughValue === "Brent") {
+            return <Polygon positions={Brent} />;
+        } else if (state.boroughValue === "Bromley") {
+            return <Polygon positions={Bromley} />;
+        } else if (state.boroughValue === "Croydon") {
+            return <Polygon positions={Croydon} />;
+        } else if (state.boroughValue === "Ealing") {
+            return <Polygon positions={Ealing} />;
+        } else if (state.boroughValue === "Enfield") {
+            return <Polygon positions={Enfield} />;
+        } else if (state.boroughValue === "Haringey") {
+            return <Polygon positions={Haringey} />;
+        } else if (state.boroughValue === "Harrow") {
+            return <Polygon positions={Harrow} />;
+        } else if (state.boroughValue === "Havering") {
+            return <Polygon positions={Havering} />;
+        } else if (state.boroughValue === "Hillingdon") {
+            return <Polygon positions={Hillingdon} />;
+        } else if (state.boroughValue === "Hounslow") {
+            return <Polygon positions={Hounslow} />;
+        } else if (state.boroughValue === "Kingston upon Thames") {
+            return <Polygon positions={Kingston} />;
+        } else if (state.boroughValue === "Merton") {
+            return <Polygon positions={Merton} />;
+        } else if (state.boroughValue === "Newham") {
+            return <Polygon positions={Newham} />;
+        } else if (state.boroughValue === "Redbridge") {
+            return <Polygon positions={Redbridge} />;
+        } else if (state.boroughValue === "Richmond upon Thames") {
+            return <Polygon positions={Richmond} />;
+        } else if (state.boroughValue === "Sutton") {
+            return <Polygon positions={Sutton} />;
+        } else if (state.boroughValue === "Waltham Forest") {
+            return <Polygon positions={Waltham} />;
+        }
+    }
 
     function FormSubmit(e) {
         e.preventDefault();
@@ -520,6 +624,7 @@ function AddProperty() {
                         />
 
                         <TheMapComponent />
+                        {BoroughDisplay()}
                     </MapContainer>
 
                 </Grid>
