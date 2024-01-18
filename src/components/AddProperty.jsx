@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useImmerReducer } from 'use-immer';
 
 const myStyle = {
-    width: '50%',
+    width: '75%',
     margin: '4rem auto',
     border: '5px solid black',
     padding: '3rem'
@@ -19,6 +19,167 @@ const regBtnStyle = {
         backgroundColor: 'blue',
     }
 }
+
+const areaOptions = [
+    {
+        value: '',
+        label: '',
+    },
+    {
+        value: 'Inner London',
+        label: 'Inner London',
+    },
+    {
+        label: 'Outer London',
+        value: 'Outer London',
+    },
+]
+
+const innerLondonOptions = [
+	{
+		value: "",
+		label: "",
+	},
+	{
+		value: "Camden",
+		label: "Camden",
+	},
+	{
+		value: "Greenwich",
+		label: "Greenwich",
+	},
+	{
+		value: "Hackney",
+		label: "Hackney",
+	},
+	{
+		value: "Hammersmith and Fulham",
+		label: "Hammersmith and Fulham",
+	},
+	{
+		value: "Islington",
+		label: "Islington",
+	},
+	{
+		value: "Kensington and Chelsea",
+		label: "Kensington and Chelsea",
+	},
+	{
+		value: "Lambeth",
+		label: "Lambeth",
+	},
+	{
+		value: "Lewisham",
+		label: "Lewisham",
+	},
+	{
+		value: "Southwark",
+		label: "Southwark",
+	},
+	{
+		value: "Tower Hamlets",
+		label: "Tower Hamlets",
+	},
+	{
+		value: "Wandsworth",
+		label: "Wandsworth",
+	},
+	{
+		value: "Westminster",
+		label: "Westminster",
+	},
+	{
+		value: "City of London",
+		label: "City of London",
+	},
+];
+
+const outerLondonOptions = [
+	{
+		value: "",
+		label: "",
+	},
+	{
+		value: "Barking and Dangenham",
+		label: "Barking and Dangenham",
+	},
+	{
+		value: "Barnet",
+		label: "Barnet",
+	},
+	{
+		value: "Bexley",
+		label: "Bexley",
+	},
+	{
+		value: "Brent",
+		label: "Brent",
+	},
+	{
+		value: "Bromley",
+		label: "Bromley",
+	},
+	{
+		value: "Croydon",
+		label: "Croydon",
+	},
+	{
+		value: "Ealing",
+		label: "Ealing",
+	},
+	{
+		value: "Enfield",
+		label: "Enfield",
+	},
+	{
+		value: "Haringey",
+		label: "Haringey",
+	},
+	{
+		value: "Harrow",
+		label: "Harrow",
+	},
+	{
+		value: "Havering",
+		label: "Havering",
+	},
+	{
+		value: "Hillingdon",
+		label: "Hillingdon",
+	},
+	{
+		value: "Hounslow",
+		label: "Hounslow",
+	},
+	{
+		value: "Kingston upon Thames",
+		label: "Kingston upon Thames",
+	},
+	{
+		value: "Merton",
+		label: "Merton",
+	},
+	{
+		value: "Newham",
+		label: "Newham",
+	},
+	{
+		value: "Redbridge",
+		label: "Redbridge",
+	},
+	{
+		value: "Richmond upon Thames",
+		label: "Richmond upon Thames",
+	},
+	{
+		value: "Sutton",
+		label: "Sutton",
+	},
+	{
+		value: "Waltham Forest",
+		label: "Waltham Forest",
+	},
+];
 
 function AddProperty() {
 
@@ -170,14 +331,6 @@ function AddProperty() {
                 </Grid>
 
                 <Grid item container style={{ marginTop: '1rem' }}>
-                    <TextField id="area" label="Area" variant="standard" fullWidth value={state.areaValue} onChange={(e) => dispatch({ type: 'catchAreaChange', areaChosen: e.target.value })} />
-                </Grid>
-
-                <Grid item container style={{ marginTop: '1rem' }}>
-                    <TextField id="borough" label="Borough" variant="standard" fullWidth value={state.boroughValue} onChange={(e) => dispatch({ type: 'catchBoroughChange', boroughChosen: e.target.value })} />
-                </Grid>
-
-                <Grid item container style={{ marginTop: '1rem' }}>
                     <TextField id="propertyStatus" label="Property Status" variant="standard" fullWidth value={state.propertyStatusValue} onChange={(e) => dispatch({ type: 'catchPropertyStatusChange', propertyStatusChosen: e.target.value })} />
                 </Grid>
 
@@ -228,6 +381,55 @@ function AddProperty() {
                         label="Parking" />
                 </Grid>
 
+                <Grid item container justifyContent="space-between">
+                    <Grid item xs={5} style={{ marginTop: '1rem' }}>
+                        <TextField
+                            id="area"
+                            label="Area"
+                            variant="standard"
+                            fullWidth
+                            value={state.areaValue}
+                            onChange={(e) => dispatch({ type: 'catchAreaChange', areaChosen: e.target.value })}
+                            select
+                            SelectProps={{ native: true, }}>
+
+                            {areaOptions.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+
+                        </TextField>
+                    </Grid>
+
+
+                    <Grid item xs={5} style={{ marginTop: '1rem' }}>
+                        <TextField
+                            id="borough"
+                            label="Borough"
+                            variant="standard"
+                            fullWidth
+                            value={state.boroughValue}
+                            onChange={(e) => dispatch({ type: 'catchBoroughChange', boroughChosen: e.target.value })}
+                            select
+                            SelectProps={{ native: true }}>
+
+                            {state.areaValue === 'Inner London' ? innerLondonOptions.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            )) : ''}
+
+                            {state.areaValue === 'Outer London' ? outerLondonOptions.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            )) : ''}
+
+                        </TextField>
+                    </Grid>
+
+                </Grid>
 
 
                 <Grid item container style={{ marginTop: '1rem', marginLeft: "auto", marginRight: 'auto' }} xs={8}>
