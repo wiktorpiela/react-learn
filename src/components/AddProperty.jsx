@@ -55,6 +55,16 @@ const regBtnStyle = {
     }
 }
 
+const picturesBtn = {
+    backgroundColor: 'blue',
+    color: 'white',
+    border: '1px solid black',
+    fontSize: '0.9rem',
+    '&:hover': {
+        backgroundColor: 'blue',
+    }
+}
+
 const areaOptions = [
     {
         value: '',
@@ -246,7 +256,8 @@ function AddProperty() {
         markerPosition: {
             lat: '51.505',
             lng: '-0.09'
-        }
+        },
+        uploadedPictures: [],
     };
 
     function ReducerFunction(draft, action) {
@@ -317,23 +328,23 @@ function AddProperty() {
                 break;
 
             case 'catchPic1Change':
-                draft.pic1Value = action.pic1Value;
+                draft.pic1Value = action.pic1Chosen;
                 break;
 
             case 'catchPic2Change':
-                draft.pic2Value = action.pic2Value;
+                draft.pic2Value = action.pic2Chosen;
                 break;
 
             case 'catchPic3Change':
-                draft.pic3Value = action.pic3Value;
+                draft.pic3Value = action.pic3Chosen;
                 break;
 
             case 'catchPic4Change':
-                draft.pic4Value = action.pic4Value;
+                draft.pic4Value = action.pic4Chosen;
                 break;
 
             case 'catchPic5Change':
-                draft.pic5Value = action.pic5Value;
+                draft.pic5Value = action.pic5Chosen;
                 break;
 
             case 'getMap':
@@ -345,6 +356,10 @@ function AddProperty() {
                 draft.markerPosition.lng = action.changeLongitude;
                 draft.latitudeValue = '';
                 draft.longitudeValue = '';
+                break;
+
+            case 'catchUploadedPictures':
+                draft.uploadedPictures = action.picturesChosen;
                 break;
 
             default:
@@ -680,9 +695,35 @@ function AddProperty() {
         [],
     )
 
-    useEffect(()=>{
-        console.log(state.latitudeValue, state.longitudeValue)
-    },[state.latitudeValue, state.longitudeValue])
+    useEffect(() => {
+        if (state.uploadedPictures[0]) {
+            dispatch({ type: 'catchPic1Change', pic1Chosen: state.uploadedPictures[0] })
+        }
+    }, [state.uploadedPictures[0]])
+
+    useEffect(() => {
+        if (state.uploadedPictures[1]) {
+            dispatch({ type: 'catchPic2Change', pic2Chosen: state.uploadedPictures[1] })
+        }
+    }, [state.uploadedPictures[1]])
+
+    useEffect(() => {
+        if (state.uploadedPictures[2]) {
+            dispatch({ type: 'catchPic3Change', pic3Chosen: state.uploadedPictures[2] })
+        }
+    }, [state.uploadedPictures[2]])
+
+    useEffect(() => {
+        if (state.uploadedPictures[3]) {
+            dispatch({ type: 'catchPic4Change', pic4Chosen: state.uploadedPictures[3] })
+        }
+    }, [state.uploadedPictures[3]])
+
+    useEffect(() => {
+        if (state.uploadedPictures[4]) {
+            dispatch({ type: 'catchPic5Change', pic5Chosen: state.uploadedPictures[4] })
+        }
+    }, [state.uploadedPictures[4]])
 
     function FormSubmit(e) {
         e.preventDefault();
@@ -830,8 +871,34 @@ function AddProperty() {
 
 
                 <Grid item container style={{ marginTop: '1rem', marginLeft: "auto", marginRight: 'auto' }} xs={8}>
+                    <Button variant='contained' fullWidth type='submit' sx={picturesBtn} component='label'>
+                        UPLOAD PICTURES (MAX 5)
+                        <input
+                            type='file'
+                            multiple
+                            accept='image/png, image/gif, image/jpeg'
+                            hidden
+                            onChange={(e) => dispatch({ type: 'catchUploadedPictures', picturesChosen: e.target.files })} />
+                    </Button>
+                </Grid>
+
+                <Grid item container>
+                    <ul>
+                        {state.pic1Value ? <li>{state.pic1Value.name}</li> : ''}
+                        {state.pic2Value ? <li>{state.pic2Value.name}</li> : ''}
+                        {state.pic3Value ? <li>{state.pic3Value.name}</li> : ''}
+                        {state.pic4Value ? <li>{state.pic4Value.name}</li> : ''}
+                        {state.pic5Value ? <li>{state.pic5Value.name}</li> : ''}
+                    </ul>
+                </Grid>
+
+                <Grid item container style={{ marginTop: '1rem', marginLeft: "auto", marginRight: 'auto' }} xs={8}>
                     <Button variant='contained' fullWidth type='submit' sx={regBtnStyle}>SUBMIT</Button>
                 </Grid>
+
+                {/* <Grid item container style={{ marginTop: '1rem', marginLeft: "auto", marginRight: 'auto' }} xs={8}>
+                    <Button variant='contained' fullWidth type='submit' sx={regBtnStyle} onClick={()=> console.log(state.uploadedPictures)}>test</Button>
+                </Grid> */}
 
             </form>
 
