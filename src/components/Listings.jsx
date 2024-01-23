@@ -1,10 +1,12 @@
-import { Grid, AppBar, Typography, Button, Card, CardHeader, CardMedia, CardContent, CircularProgress } from '@mui/material'
+import { Grid, AppBar, Typography, Button, Card, CardHeader, CardMedia, CardContent, CircularProgress, IconButton, CardActions } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { useImmerReducer } from 'use-immer';
 import { MapContainer, TileLayer, useMap, Marker, Popup, Polyline, Polygon } from 'react-leaflet'
 import { Icon } from 'leaflet'
 import houseIconPng from './assets/Mapicons/house.png'
 import apartmentIconPng from './assets/Mapicons/apartment.png'
 import officeIconPng from './assets/Mapicons/office.png'
+import RoomIcon from '@mui/icons-material/Room'
 import img1 from './assets/image1.jpg'
 
 import myListings from './assets/Data/Dummydata';
@@ -33,6 +35,32 @@ function Listings() {
   const [latitude, setLatitude] = useState(51.505)
   const [longitude, setLongitude] = useState(-0.09)
 
+  const initialState = {
+    mapInstance: null,
+  };
+
+  function ReducerFunction(draft, action) {
+
+    switch (action.type) {
+
+      case 'getMap':
+        draft.mapInstance = action.mapData;
+        break;
+
+      default:
+      // pass
+    }
+
+  }
+
+  const [state, dispatch] = useImmerReducer(ReducerFunction, initialState);
+
+  function TheMapComponent() {
+    const map = useMap();
+    dispatch({ type: 'getMap', mapData: map })
+    return null
+  }
+
   function GoEast() {
     setLatitude(51.46567014039476)
     setLongitude(0.25961735)
@@ -56,7 +84,7 @@ function Listings() {
     const source = axios.CancelToken.source()
     async function getAllListings() {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/listing-list/', {cancelToken: source.token})
+        const response = await axios.get('http://127.0.0.1:8000/listing-list/', { cancelToken: source.token })
         setAllListings(response.data);
         seDataLoading(false)
 
@@ -65,7 +93,7 @@ function Listings() {
       }
     }
     getAllListings();
-    return ()=>{
+    return () => {
       source.cancel()
     }
   }, [])
@@ -80,7 +108,7 @@ function Listings() {
         container
         justifyContent="center"
         alignItems="center"
-        style={{height: '100vh'}}
+        style={{ height: '100vh' }}
       >
         <CircularProgress />
       </Grid>
@@ -101,11 +129,12 @@ function Listings() {
                 border: '1px solid black'
               }}>
               <CardHeader
-                // action={
-                //   <IconButton aria-label="settings">
-                //     <MoreVertIcon />
-                //   </IconButton>
-                // }
+                action={
+                  <IconButton aria-label="settings"
+                    onClick={() => state.mapInstance.flyTo([listing.latitude, listing.longitude], 16)}>
+                    <RoomIcon />
+                  </IconButton>
+                }
                 title={listing.title}
               />
               <CardMedia
@@ -148,14 +177,11 @@ function Listings() {
 
 
 
-              {/* <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-            </CardActions> */}
+              <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites">
+                  {listing.seller}
+                </IconButton>
+              </CardActions>
             </Card>
           )
         })}
@@ -169,6 +195,8 @@ function Listings() {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
+
+              <TheMapComponent />
 
 
 
