@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react'
+import React, { useEffect, useState, useRef, useMemo, useContext } from 'react'
 import { TextField, Grid, Typography, Button, FormControlLabel, Checkbox } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { useImmerReducer } from 'use-immer';
 import { MapContainer, Polygon, TileLayer, useMap, Marker } from 'react-leaflet'
+
+import StateContext from '../Contexts/StateContext'
 
 import Camden from "./assets/Boroughs/Camden";
 import Greenwich from "./assets/Boroughs/Greenwich";
@@ -284,6 +286,7 @@ const rentalFrequencyOptions = [
 function AddProperty() {
 
     const navigate = useNavigate();
+    const GlobalState = useContext(StateContext)
 
     const initialState = {
         titleValue: '',
@@ -313,6 +316,7 @@ function AddProperty() {
             lng: '-0.09'
         },
         uploadedPictures: [],
+        sendRequest: 0
     };
 
     function ReducerFunction(draft, action) {
@@ -416,6 +420,10 @@ function AddProperty() {
             case 'catchUploadedPictures':
                 draft.uploadedPictures = action.picturesChosen;
                 break;
+
+            case 'changeSendRequest':
+                draft.sendRequest = draft.sendRequest + 1;
+                break
 
             default:
             // pass
@@ -783,9 +791,45 @@ function AddProperty() {
     function FormSubmit(e) {
         e.preventDefault();
         console.log('the form has been submitted')
-        // dispatch({ type: 'changeSendRequest' })
-        console.log(state.sendRequest)
+        dispatch({ type: 'changeSendRequest' })
     }
+
+    useEffect(()=>{
+        if(state.sendRequest){
+            async function AddProperty(){
+                const formData = new FormData()
+                formData.append('title', state.titleValue)
+                formData.append('description', state.descriptionValue)
+                formData.append('area', state.areaValue)
+                formData.append('borough', state.boroughValue)
+                formData.append('listing_type', state.listingTypeValue)
+                formData.append('property_status', state.propertyStatusValue)
+                formData.append('price', state.priceValue)
+                formData.append('rental_frequency', state.rentalFrequencyValue)
+                formData.append('rooms', state.roomsValue)
+                formData.append('furnished', state.furnishedValue)
+                formData.append('pool', state.poolValue)
+                formData.append('elevator', state.elevatorValue)
+                formData.append('cctv', state.cctvValue)
+                formData.append('parking', state.parkingValue)
+                formData.append('latitude', state.latitudeValue)
+                formData.append('longitude', state.longitudeValue)
+                formData.append('picture1', state.pic1Value)
+                formData.append('picture2', state.pic2Value)
+                formData.append('picture3', state.pic3Value)
+                formData.append('picture4', state.pic4Value)
+                formData.append('picture5', state.pic5Value)
+                formData.append('seller', state.GlobalState.userId)
+
+                    const response = await axios.post(URL, data)
+                    console.log(response)
+                } catch (e){
+                    console.log(e.reposnse)
+                }
+            }
+            AddProperty();
+        }
+    },[state.sendRequest])
 
     function PriceDisplay() {
         if (state.propertyStatusValue === 'Rent' && state.rentalFrequencyValue == 'Day') {
