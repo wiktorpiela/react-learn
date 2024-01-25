@@ -9,6 +9,7 @@ import Header from './components/Header';
 import Testing from './components/Testing';
 import Register from './components/Register'
 import AddProperty from './components/AddProperty';
+import Profile from './components/Profile';
 import { useImmerReducer } from 'use-immer';
 import DispatchContext from './context/DispatchContext';
 import StateContext from './context/StateContext';
@@ -76,6 +77,7 @@ function App() {
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/listings' element={<Listings />} />
+              <Route path='/profile' element={<Profile />} />
               <Route path='/testing' element={<Testing />} />
               <Route path='/addproperty' element={<AddProperty />} />
             </Routes>
