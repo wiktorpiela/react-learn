@@ -41,13 +41,15 @@ function Profile() {
         userProfile: {
             agencyName: '',
             phoneNumber: '',
+            profilePic: '',
+            bio: '',
         },
         agencyNameValue: '',
         phoneNumberValue: '',
         bioValue: '',
         uploadedPicture: [],
         profilePictureValue: '',
-
+        sendRequest: 0,
     };
 
     function ReducerFunction(draft, action) {
@@ -56,6 +58,8 @@ function Profile() {
             case 'catchUserProfileInfo':
                 draft.userProfile.agencyName = action.profileObject.agency_name
                 draft.userProfile.phoneNumber = action.profileObject.phone_number
+                draft.userProfile.profilePic = action.profileObject.profile_pic
+                draft.userProfile.bio = action.profileObject.bio
                 break
 
             case 'catchAgencyNameChange':
@@ -71,11 +75,15 @@ function Profile() {
                 break
 
             case 'catchUploadedPictureChange':
-                draft.uplodadedPictureValue = action.uplodadedPictureChosen
+                draft.uploadedPicture = action.pictureChosen
                 break
 
             case 'catchProfilePictureChange':
                 draft.profilePictureValue = action.profilePictureChosen
+                break
+
+            case 'changeSendRequest':
+                draft.sendRequest = draft.sendRequest + 1;
                 break
 
             default:
@@ -88,11 +96,11 @@ function Profile() {
 
     //use effect to catch uploaded picture
 
-    useEffect(()=>{
-        if(state.uploadedPicture[0]){
-            dispatch({type: 'catchProfilePictureChange', profilePictureChosen: state.uplodadedPicture[0]})
+    useEffect(() => {
+        if (state.uploadedPicture[0]) {
+            dispatch({ type: 'catchProfilePictureChange', profilePictureChosen: state.uploadedPicture[0] })
         }
-    },[state.uploadedPicture[0]])
+    }, [state.uploadedPicture[0]])
 
     useEffect(() => {
         async function GetProfileInfo() {
@@ -106,16 +114,75 @@ function Profile() {
         }
         GetProfileInfo();
 
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (state.sendRequest) {
+            async function UpdateProfile() {
+                const formData = new FormData()
+
+                formData.append('agency_name', state.agencyNameValue)
+                formData.append('phone_number', state.phoneNumberValue)
+                formData.append('bio', state.bioValue)
+                formData.append('profile_pic', state.profilePictureValue)
+                formData.append('seller', GlobalState.userId)
+
+                try {
+                    const response = await axios.patch(`http://127.0.0.1:8000/accounts/profile-update/${GlobalState.userId}`, formData)
+                    console.log(response.data)
+                    //navigate('/listings')
+                } catch (e) {
+                    console.log(e.reposnse)
+                }
+            }
+            UpdateProfile();
+        }
+    }, [state.sendRequest])
+
+    function FormSubmit(e) {
+        e.preventDefault();
+        dispatch({ type: 'changeSendRequest', })
+    }
+
+    function WelcomeDisplay() {
+        if (state.userProfile.agencyName === null || state.userProfile.agencyName === '' || state.userProfile.phoneNumber === null || state.userProfile.phoneNumber === '') {
+            return (
+                <Typography variant='h5' style={{ textAlign: 'center', marginTop: '1rem' }}>
+                    Welcome <span style={{ color: 'green', fontWeight: 'bolder' }}>{GlobalState.userUsername}</span>, please submit this form below to update your profile
+                </Typography>
+            )
+        } else {
+            return (
+                <Grid container>
+                    <Grid item>
+                        <img src={state.userProfile.profilePic} style={{ height: '10rem', width: '15rem' }} />
+                    </Grid>
+
+                    <Grid item container direction='column' justifyContent='center' xs={6}>
+                        <Grid item>
+                            <Typography variant='h5' style={{ textAlign: 'center', marginTop: '1rem' }}>
+                                Welcome,
+                                <span style={{ color: 'green', fontWeight: 'bolder' }}>
+                                    {GlobalState.userUsername}
+                                </span>
+                            </Typography>
+
+                            <Typography variant='h5' style={{ textAlign: 'center', marginTop: '1rem' }}>
+                                you have x proprties listed
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            )
+        }
+    }
 
     return (
         <div style={myStyle}>
 
-            <Typography variant='h5' style={{ textAlign: 'center', marginTop: '1rem' }}>
-                Welcome <span style={{ color: 'green', fontWeight: 'bolder' }}>{GlobalState.userUsername}</span>, please submit this form below to update your profile
-            </Typography>
+            {WelcomeDisplay()}
 
-            <form>
+            <form onSubmit={FormSubmit}>
                 <Grid item container style={{ marginTop: '1rem' }} justifyContent={'center'}>
                     <Typography variant='h4' style={{ textTransform: 'uppercase' }}>MY profile</Typography>
                 </Grid>
@@ -162,7 +229,7 @@ function Profile() {
                             onChange={(e) => dispatch({ type: 'catchUploadedPictureChange', pictureChosen: e.target.files })} />
                     </Button>
                 </Grid>
-                
+
                 <Grid item container>
                     <ul>
                         {state.profilePictureValue ? <li>{state.profilePictureValue.name}</li> : ''}
